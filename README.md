@@ -1,46 +1,95 @@
 # Electoral Threat and Digital Repression
 
-This repository documents my research on how electoral threat shapes incumbents' use of digital repression and how this relationship varies across regime contexts and tactics.
+This repository documents my research on how electoral threat shapes incumbents' use of digital repression and how that response varies across levels of democracy.
 
 ## Research question
 
-When incumbents face electoral threat, how does their use of digital repression change, and which digital tactics do they expand?
+Do incumbents use more digital repression when they face an electoral threat, and is the effect largest at intermediate levels of democracy?
 
-## Project overview
+## Argument
 
-I conceptualize **electoral threat** as a pre-election condition that combines meaningful electoral competition with uncertainty about whether the incumbent will retain governing power. The project examines whether this threat changes the overall use of digital repression and whether the relationship varies across levels of electoral democracy.
+I define **electoral threat** as the risk that incumbents will lose governing power through an election that satisfies two conditions.
 
-The empirical analysis uses a country-year panel covering **2000–2020**. Digital repression is measured with multiple indicators capturing filtering, internet and social-media shutdowns, social-media censorship, government and party disinformation, arrests for online political content, and government social-media monitoring.
+1. **Minimal competition** means that incumbent defeat is institutionally possible because opposition participation is permitted, multiple parties are legal, and voters have a choice among candidates.
+2. **Outcome uncertainty** means that incumbents cannot confidently expect to retain governing power in the approaching election.
+
+The argument focuses on the period before voting, when opposition campaigning and mobilization can still affect electoral outcomes. Digital repression can help incumbents restrict opposition communication, disrupt coordination, obtain information through surveillance, and support more targeted intervention.
+
+The project evaluates two expectations.
+
+- **H1:** Incumbents facing electoral threat use higher levels of digital repression than incumbents not facing electoral threat.
+- **H2:** The marginal effect of electoral threat on digital repression is largest at intermediate levels of democracy and smaller at lower and higher levels.
+
+## Data and measurement
+
+The study uses a **country-year panel covering 179 countries from 2000 through 2020**, with 3,741 observations before estimator-specific restrictions.
+
+The primary outcome is Feldstein's **eight-item Digital Repression Index (DRI)**. It combines:
+
+- internet filtering
+- internet shutdowns
+- social-media shutdowns
+- social-media censorship
+- government disinformation
+- party/candidate disinformation
+- arrests for online political content
+- government social-media monitoring
+
+The moderator is V-Dem's **Electoral Democracy Index**, measured in the preceding year.
 
 ## Empirical strategy
 
-The project uses several panel-data approaches to evaluate the argument and assess robustness.
+The analysis uses two complementary panel-data approaches.
 
-- **PanelMatch** for matched panel comparisons around electoral threat
-- **Two-way fixed effects (TWFE)** as a benchmark specification
-- **FEct and IFEct** as sensitivity analyses
-- Event-time and placebo analyses to evaluate timing
+### PanelMatch
+
+PanelMatch estimates the effect of entering the electoral-threat condition among treatment onsets. The primary design:
+
+- compares treated onsets with untreated country-years in the same calendar year
+- requires the same treatment history over the previous three years
+- refines matched sets using Mahalanobis distance
+- uses lagged pretreatment covariates and the lagged outcome
+- retains up to five matched controls
+- estimates effects from the threat year through three subsequent years
+- evaluates pretreatment comparability with placebo contrasts
+- uses 1,000 country-cluster bootstrap replications
+
+An election-restricted specification further limits controls to country-years that also precede a classifiable but nonthreatening election.
+
+For H2, treated onsets are grouped using the lagged four-category electoral-democracy classification, and synchronized bootstrap draws are used to compare intermediate and extreme regime categories.
+
+### Two-way fixed effects
+
+TWFE models complement the PanelMatch estimates by evaluating heterogeneity across the continuous Electoral Democracy Index.
+
+The nonlinear specification interacts electoral threat with:
+
+- the lagged Electoral Democracy Index
+- its squared term
+
+Models include country and year fixed effects, the lagged moderator and its square, and the remaining lagged adjustment variables. Inference uses **Driscoll-Kraay standard errors** to address cross-sectional and serial dependence.
 
 ## Repository plan
 
-This repository will contain reproducible research materials as they are prepared for public release.
+Reproducible materials will be organized as they are prepared for public release.
 
 ```
 .
 ├── README.md
 ├── code/
 │   ├── 01_data_preparation.R
-│   ├── 02_measurement.R
-│   ├── 03_panelmatch.R
-│   ├── 04_twfe.R
-│   ├── 05_fect_ifect.R
-│   └── 06_figures_tables.R
+│   ├── 02_construct_electoral_threat.R
+│   ├── 03_construct_dri.R
+│   ├── 04_panelmatch.R
+│   ├── 05_twfe.R
+│   ├── 06_diagnostics.R
+│   └── 07_figures_tables.R
 ├── documentation/
 ├── figures/
 └── tables/
 ```
 
-Raw data will only be shared where redistribution is permitted. Where source data cannot be redistributed, the repository will document how to obtain the data and reproduce the analysis.
+Raw data will only be shared where redistribution is permitted. Where source data cannot be redistributed, the repository will document how to obtain the original data and reproduce the analysis.
 
 ## Research status
 
